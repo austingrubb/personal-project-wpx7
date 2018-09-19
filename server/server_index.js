@@ -17,7 +17,6 @@ massive(process.env.CONNECTION_STRING).then(database => {
   }
 );
 
-app.use(bodyParser.json())
 app.use(session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,

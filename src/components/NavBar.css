@@ -1,0 +1,9 @@
+.navbar {
+    /* background: blue; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid blue;
+    height: 30px;
+    font-size: 20px;
+}

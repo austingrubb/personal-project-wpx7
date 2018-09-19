@@ -23,14 +23,14 @@ module.exports = {
     createCustomer: (req, res, next) => {
         const database = req.app.get('db');
         const {name, address, zip_code, cell_phone, email, customer_type, appointment_date, appointment_time} = req.body
-
+        console.log(req.body)
         database.create_customer([name, address, zip_code, cell_phone, email, customer_type, appointment_date, appointment_time])
-            .then(() => res.sendStatus(200))
+            .then(customer => { console.log(customer) ; res.send(customer)})
             .catch( err => {
                 res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
-                console.log(err)
               } );
     },
+
 
     createHorse: (req, res, next) => {
         const database = req.app.get('db');
@@ -40,7 +40,6 @@ module.exports = {
             .then(() => res.sendStatus(200))
             .catch( err => {
                 res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
-                console.log(err)
               } );
     },
 

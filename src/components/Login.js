@@ -7,7 +7,6 @@ class Login extends Component {
       users: null,
       showRegister: false,
       message: null,
-      fetchedDataMessage: null
     };
   
     getMessage = error => error.response
@@ -24,7 +23,7 @@ class Login extends Component {
         username,
         password
       }).then(response => {
-        this.setState({users: response.data}, this.props.history.push('/'))
+        this.setState({users: response.data}, this.props.history.push('/customers'))
       }).catch(error => {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
       });
@@ -38,7 +37,7 @@ class Login extends Component {
         username,
         password
       }).then(response => {
-        this.setState({users: response.data}, this.props.history.push('/'))
+        this.setState({users: response.data}, this.props.history.push('/customers'))
       }).catch(error => {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
       });
