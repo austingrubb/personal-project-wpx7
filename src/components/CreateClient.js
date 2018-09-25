@@ -32,25 +32,23 @@ export class CreateClient extends Component {
     event.preventDefault();
   }
   
-  addNewClient(){
+  addNewClient(e){
+    e.preventDefault();
+    console.log('hit')
     axios.post(`${baseUrl}`,this.state).then(res => {
+      console.log(res.data)
       this.setState({
-        name: '',
-        address: '',
-        zip_code: '',
-        cellphone: '',
-        email: '',
-        customer_type: '',
-        appointment_date: '',
-        appointment_time: ''
-      })
+        state: res.data
+      }, this.handleSubmit(e),
+      this.props.history.push('/customers')
+    )
     }).catch( err => {
       console.log(err)
     } );
-  }
+  } 
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div className='createClientForm'>
         <form >
@@ -72,7 +70,7 @@ export class CreateClient extends Component {
               Appointment time:
             <input type='text' value={this.state.appointment_time} onChange={e => this.handleChange('appointment_time', e.target.value)}/>
           </label>
-          <input type="submit" value="Submit" onClick={this.addNewClient} />
+          <input type="submit" value="Submit" onClick={(e) => this.addNewClient(e)} />
         </form>
       </div>
     )

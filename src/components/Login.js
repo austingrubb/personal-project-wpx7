@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import {addUser} from '../ducks/reducer'
+import {logOut} from '../ducks/reducer'
+import { connect } from 'react-redux';
 
 class Login extends Component {
     state = {
-      users: null,
       showRegister: false,
       message: null,
     };
@@ -23,10 +24,10 @@ class Login extends Component {
         username,
         password
       }).then(response => {
-        this.setState({users: response.data}, this.props.history.push('/customers'))
+        this.props.addUser({users: response.data}, this.props.history.push('/customers'))
       }).catch(error => {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
-      });
+      }); 
     }
   
     login = () => {
@@ -37,6 +38,7 @@ class Login extends Component {
         username,
         password
       }).then(response => {
+        this.props.addUser(response.data)
         this.setState({users: response.data}, this.props.history.push('/customers'))
       }).catch(error => {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
@@ -45,14 +47,15 @@ class Login extends Component {
   
     logout = () => {
       axios.post('/logout').then(response => {
-        this.setState({ users: null });
+        this.props.logOut(response.data)
       }).catch(error => {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
       });
     };
   
     render() {
-      const { users, showRegister, message} = this.state;
+      const { users} = this.props.user;
+      const { showRegister, message} = this.state;
       const userData = JSON.stringify(users, null, 2)
       const inputFields = <div>
         Username: <input ref="username" />
@@ -85,15 +88,22 @@ class Login extends Component {
               </div>
             </div>}
            </nav>
-            {users && <div className="user-info">
+            {this.props.user ? <div className="user-info">
               <h2>user Data:</h2>
               <div>{ userData }</div>
               <button onClick={this.logout}>Log out</button>
-            </div>} 
+            </div>
+            :''} 
           </div>
         </div>
       );
     }
   }
+
+  const mapStateToProps = (store) => {
+    return{
+      user: store.users
+    }
+  }
   
-  export default Login;
+  export default connect(mapStateToProps,{addUser, logOut})(Login);

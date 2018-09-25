@@ -22,12 +22,16 @@ module.exports = {
 
     createCustomer: (req, res, next) => {
         const database = req.app.get('db');
-        const {name, address, zip_code, cell_phone, email, customer_type, appointment_date, appointment_time} = req.body
+        const {name, address, zip_code, cellphone, email, customer_type, appointment_date, appointment_time} = req.body
         console.log(req.body)
-        database.create_customer([name, address, zip_code, cell_phone, email, customer_type, appointment_date, appointment_time])
-            .then(customer => { console.log(customer) ; res.send(customer)})
+        database.create_customer([ name, address, zip_code, cellphone, email, customer_type, appointment_date, appointment_time])
+            .then(customer => { 
+                console.log('==============',customer)
+                res.send(customer)
+            })
             .catch( err => {
-                res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
+                // res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
+                console.log(err)
               } );
     },
 

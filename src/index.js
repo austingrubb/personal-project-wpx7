@@ -4,14 +4,18 @@ import './index.css';
 import App from './App';
 import { BrowserRouter as Route} from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
+import {Provider} from 'react-redux';
+import store from './ducks/store';
 
 const render = () => {
     ReactDOM.render(
-        <Route>
           <AppContainer>
-            <App />
-          </AppContainer>
-        </Route>,
+            <Provider store={store}>
+              <Route>
+                  <App />
+              </Route>
+            </Provider>
+          </AppContainer>,
       document.getElementById('root')
     );
   };

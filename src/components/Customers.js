@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import {connect} from 'react-redux';
+
 
 const baseUrl = '/api/customers'
 
-export class Customers extends Component {
+class Customers extends Component {
     constructor(){
         super()
     
@@ -21,7 +23,6 @@ export class Customers extends Component {
           }).catch( err => console.log( 'error in component did mount'))
         }
   render() {
-      console.log(this.state.customers)
     const mappedCustomers = this.state.customers.map((customer, index) => {
         return <div key={index}>
                   <div>{customer.name}</div>
@@ -30,10 +31,16 @@ export class Customers extends Component {
       })
     return (
       <div>
-        {mappedCustomers}
+        {this.props.user ? mappedCustomers : 'please log in'}
       </div>
     )
   }
 }
 
-export default Customers
+const mapStateToProps = (store) => {
+  return{
+    user: store.users
+  }
+}
+
+export default connect(mapStateToProps)(Customers)
