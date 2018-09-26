@@ -30,7 +30,6 @@ module.exports = {
                 res.send(customer)
             })
             .catch( err => {
-                // res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
                 console.log(err)
               } );
     },
@@ -38,10 +37,13 @@ module.exports = {
 
     createHorse: (req, res, next) => {
         const database = req.app.get('db');
-        const {customer_id, name, age, breed, height, sex, foaling_year, color} = req.body
+        const {customer_email, name, age, breed, height, sex, foaling_year, color} = req.body
 
-        database.create_horse([customer_id, name, age, breed, height, sex, foaling_year, color])
-            .then(() => res.sendStatus(200))
+        database.create_horse([customer_email, name, age, breed, height, sex, foaling_year, color])
+            .then(horse => {
+                console.log('==============',horse)
+                res.send(horse)
+            })
             .catch( err => {
                 res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
               } );

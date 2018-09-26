@@ -10,25 +10,45 @@ class Customers extends Component {
         super()
     
         this.state = {
-          customers:[] 
+          customers:[],
+          horses:[]
         }
       }
 
       componentDidMount(){
         axios.get(`${baseUrl}`).then(res => {
-            console.log(res.data)
           this.setState({
-              customers: res.data
+              customers: res.data,
           })
-          }).catch( err => console.log( 'error in component did mount'))
+          }).catch( err => console.log( 'error in component did mount', err))
+
+        axios.get(`/api/horses`).then(res => {
+          console.log(res.data)
+          this.setState({
+            horses: res.data
+          })
+        }).catch( err => console.log( 'error in component did mount', err))
+        }
+
+        toggleHorse = (customer) => {
+          this.state.showHorses === customer.id ?
+            this.setState({
+              showHorses: -1
+            })
+          :
+            this.setState({
+              showHorses: customer.id
+            })
         }
   render() {
-    const mappedCustomers = this.state.customers.map((customer, index) => {
-        return <div key={index}>
+    console.log(this.state)
+    const mappedCustomers = this.state.customers.map((customer, i) => {
+        return <div key={i} onClick={() => this.toggleHorse(customer)}>
                   <div>{customer.name}</div>
-                  <div>{customer.address}</div>
+                  {this.state.showHorses === customer.id && <div>{this.state.horses.filter(e =>
+                     e.customer_email === customer.email).map(e => e.name)}</div>}
                 </div>
-      })
+    })
     return (
       <div>
         {this.props.user ? mappedCustomers : 'please log in'}

@@ -1,2 +1,2 @@
 select * from customers 
-join horses on (customers.id = horses.customer_id);
+join horses on (customers.email = horses.customer_email);

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux';
 
 const baseUrl = '/api/customer'
 
 export class CreateClient extends Component {
-  constructor(props){
-    super(props)
+  constructor(){
+    super()
     this.state = {
       name: '',
       address: '',
@@ -48,7 +49,7 @@ export class CreateClient extends Component {
   } 
 
   render() {
-    // console.log(this.state)
+    
     return (
       <div className='createClientForm'>
         <form >
@@ -77,5 +78,10 @@ export class CreateClient extends Component {
   }
 }
 
-export default CreateClient
+const mapStateToProps = (store) => {
+  return{
+    user: store.users
+  }
+}
 
+export default connect(mapStateToProps)(CreateClient)

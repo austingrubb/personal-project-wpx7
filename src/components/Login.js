@@ -8,6 +8,7 @@ class Login extends Component {
     state = {
       showRegister: false,
       message: null,
+      user: this.props.user
     };
   
     getMessage = error => error.response
@@ -52,9 +53,16 @@ class Login extends Component {
         this.setState({ message: 'Something went wrong: ' + this.getMessage(error) });
       });
     };
+
+    componentDidUpdate = (prevProps, prevState) => {
+      console.log('previous user props', prevProps.user)
+      this.props.user !== prevProps.user && this.setState({user: this.props.user})
+    }
+    
   
     render() {
-      const { users} = this.props.user;
+      const { users} = this.state.user;
+      console.log('current logged in user', this.state.user)
       const { showRegister, message} = this.state;
       const userData = JSON.stringify(users, null, 2)
       const inputFields = <div>
@@ -66,8 +74,9 @@ class Login extends Component {
       return (
         <div className="App">
         <div className="App-intro">
+          {!users ? 
            <nav className="navBar">
-            {!users && <div>
+            <div> 
               <div className="login_signuplink">
                   <a href="javascript:void(0)" onClick={() => this.setState({ showRegister: false })}>Login</a>
                   {' '}
@@ -86,14 +95,15 @@ class Login extends Component {
                 </div>}
                 {message}
               </div>
-            </div>}
-           </nav>
-            {this.props.user ? <div className="user-info">
-              <h2>user Data:</h2>
-              <div>{ userData }</div>
-              <button onClick={this.logout}>Log out</button>
             </div>
-            :''} 
+           </nav>
+           :
+              <div className="user-info">
+                <h2>user Data:</h2>
+                <div>{ userData }</div>
+                <button onClick={this.logout}>Log out</button>
+              </div>
+            } 
           </div>
         </div>
       );

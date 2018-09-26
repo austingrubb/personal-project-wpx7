@@ -19,8 +19,8 @@ massive(process.env.CONNECTION_STRING).then(database => {
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    saveUninitialized: false,
-    resave: false,
+    saveUninitialized: true,
+    resave: true,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365
     }
@@ -42,29 +42,34 @@ app.post('/signup', (req, res) => {
     })
 })
 
+
 app.post('/login', (req, res) => {
     const db = app.get('db');
     const { username, password } = req.body;
     db.find_user([username]).then(users => {
-      if (users.length) {
-        bcrypt.compare(password, users[0].password).then(passwordsMatched => {
-          if (passwordsMatched) {
-            req.session.users = { username: users[0].username };
-            res.json({ users: req.session.users });
-          } else {
-            res.status(403).json({ message: 'Wrong password' })
-          }
-        })
-      } else {
-        res.status(403).json({ message: "That user is not registered" })
-      }
+        if (users.length) {
+            bcrypt.compare(password, users[0].password).then(passwordsMatched => {
+                if (passwordsMatched) {
+                    req.session.users = { username: users[0].username };
+                    res.json({ users: req.session.users });
+                } else {
+                    res.status(403).json({ message: 'Wrong password' })
+                }
+            })
+        } else {
+            res.status(403).json({ message: "That user is not registered" })
+        }
     });
-  });
+});
 
-  app.post('/logout', (req, res) => {
+app.get('/user/sessions', (req, res) => {
+    req.session.users ? res.status(200).send(req.session.users) : res.status(200).send("no user loggedin")
+});
+
+app.post('/logout', (req, res) => {
     req.session.destroy();
     res.status(200).send();
-  });
+});
 
 function checkIfLoggedIn(req, res, next){
     if(req.session.users){
@@ -90,4 +95,4 @@ app.get('/api/customers_horses', cC.getCustomersAndHorses)
 
 
 const port = process.env.port || 44000;
-app.listen(port,() =>{console.log(`Server listening on port ${port}`);});
+app.listen(port,() =>{console.log(`Server listening on port ${port}`);});  
