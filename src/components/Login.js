@@ -98,7 +98,7 @@ class Login extends Component {
             </div>
            </nav>
            :
-              <div className="user-info">
+              <div className='  user-info'>
                 <h2>user Data:</h2>
                 <div>{ userData }</div>
                 <button onClick={this.logout}>Log out</button>

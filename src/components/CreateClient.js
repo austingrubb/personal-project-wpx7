@@ -35,7 +35,7 @@ export class CreateClient extends Component {
   
   addNewClient(e){
     e.preventDefault();
-    console.log('hit')
+    console.log('addnew client was hit')
     axios.post(`${baseUrl}`,this.state).then(res => {
       console.log(res.data)
       this.setState({

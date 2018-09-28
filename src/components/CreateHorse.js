@@ -7,7 +7,7 @@ export class CreateHorse extends Component {
   constructor(props){
     super(props)
     this.state = {
-      customer_email: '',
+      customer_email: this.props.email || '',
       name: '',
       age: '',
       breed: '',
@@ -34,13 +34,13 @@ export class CreateHorse extends Component {
   
   addNewHorse(e){
     e.preventDefault();
-    console.log('hit')
+    console.log('addnew horse was hit')
     axios.post(`${baseUrl}`,this.state).then(res => {
       console.log(res.data)
       this.setState({
         state: res.data
       }, this.handleSubmit(e),
-      this.props.history.push('/customers')
+      this.props.getHorses()
     )
     }).catch( err => {
       console.log(err)
@@ -48,7 +48,7 @@ export class CreateHorse extends Component {
   } 
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <div className='createHorseForm'>
         <form >

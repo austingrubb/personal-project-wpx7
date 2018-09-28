@@ -85,10 +85,11 @@ app.get('/data', checkIfLoggedIn, (req, res) => {
 
 app.get('/api/customers', cC.getCustomers)
 app.get('/api/horses', cC.getHorses)
+app.get('/api/customer', cC.getOneCustomer)
 app.post('/api/customer', cC.createCustomer)
 app.post('/api/horse', cC.createHorse)
-app.put('/api/customer/date', cC.updateAppDate);
-app.put('/api/customer/time', cC.updateAppTime);
+app.post('/api/customer/date', cC.updateAppDate);
+app.post('/api/customer/time', cC.updateAppTime);
 app.post('/api/user', cC.createUser)
 app.delete('/api/customer/:id', cC.delete);
 app.get('/api/customers_horses', cC.getCustomersAndHorses)
@@ -96,3 +97,6 @@ app.get('/api/customers_horses', cC.getCustomersAndHorses)
 
 const port = process.env.port || 44000;
 app.listen(port,() =>{console.log(`Server listening on port ${port}`);});  
+
+
+

@@ -15,8 +15,6 @@ export class Navbar extends Component {
   render() {
     return (
       <nav className='navbar'>
-        <Link to='/createclient'>Create Client</Link>
-        <Link to='/createhorse'>Create Horse</Link>
         <Link to='/customers'>Customers</Link>
         <Link to='/login-signup'>Login/Logout</Link>
       </nav>

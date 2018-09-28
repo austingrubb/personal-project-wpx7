@@ -1,2 +1,2 @@
-select * from customers
-where id = $1;
+select name from customers
+WHERE name ILIKE concat('%', $1, '%')

@@ -45,7 +45,8 @@ module.exports = {
                 res.send(horse)
             })
             .catch( err => {
-                res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
+                res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"})
+                console.log(err);
               } );
     },
 
@@ -64,9 +65,9 @@ module.exports = {
     updateAppDate: (req, res) => {
         const database = req.app.get('db');
         const {id} = req.query
-        const {appointment_date, old_appointment} = req.body
-        console.log(id, appointment_date, old_appointment);
-        database.update_app_date([appointment_date, old_appointment, id])
+        const {appointment_date} = req.body
+        console.log(id, appointment_date);
+        database.update_app_date([appointment_date, id])
         .then( () => res.status(200).send('updated date') )
         .catch( err => {
           res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
@@ -77,14 +78,22 @@ module.exports = {
     updateAppTime: (req ,res) => {
         const database = req.app.get('db'); 
         const {id} = req.query
-        const {appointment_time, old_appointment} = req.body
-        console.log(id, appointment_time, old_appointment);
-        database.update_app_time([appointment_time, old_appointment, id])
+        const {appointment_time} = req.body
+        console.log(id, appointment_time);
+        database.update_app_time([appointment_time, id])
         .then( () => res.status(200).send('updated time') )
         .catch( err => {
           res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});
           console.log(err)
         } )
+    },
+
+    getOneCustomer: (req, res) => {
+        const database = req.app.get('db');
+        const {name} = req.query
+        database.get_one_customer(name).then(response => {
+            res.status(200).send(response)
+        })
     },
 
     getCustomersAndHorses: (req, res) => {
