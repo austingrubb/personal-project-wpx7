@@ -4,7 +4,7 @@ const massive = require('massive');
 const session = require('express-session');
 require('dotenv').config()
 const cC = require('./customer_controller');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const path = require('path')
 const saltRounds = 12
 
