@@ -5,6 +5,7 @@ import CreateHorse from './CreateHorse'
 import { Link } from 'react-router-dom';
 import UpDateTime from './upDateTime'; 
 import UpDateDate from './upDateDate';
+import DeleteClient from './deleteCustomer';
 
 const baseUrl = '/api/customers'
 
@@ -19,7 +20,8 @@ class Customers extends Component {
           showHorses: -1,
           createHorse: -1,
           appointment_time: -1,
-          appointment_date: -1
+          appointment_date: -1,
+          show_clients: -1
         }
       }
 
@@ -96,6 +98,21 @@ class Customers extends Component {
           console.log(err)
         } );
       }
+
+      gitNewClientList(){
+        console.log('deleteOneClient was hit')
+        axios.get(`${baseUrl}`).then(res => {
+          console.log(res.data)
+          this.setState({
+            customers: res.data,
+            show_clients: -1
+          }
+        )
+        }).catch( err => {
+          console.log(err)
+        } );
+      }     
+
       
   render() {
     console.log(this.state)
@@ -116,6 +133,10 @@ class Customers extends Component {
                    <button onClick={() => this.toggleHorse(customer, 'appointment_date')}>
                       {this.state.appointment_date === customer.id ? 'cancel' : 'Up Date Appointment date'}
                    </button>
+                   {/* <button onClick={() => this.toggleHorse(customer, 'show_clients')}>
+                      {this.state.show_clients === customer.id ? 'cancel' : 'delete'}
+                   </button> */}
+                   <DeleteClient id={customer.email} function={this.gitNewClientList.bind(this)}/>
                    </div>
                 }
                 {this.state.createHorse === customer.id && 
@@ -134,6 +155,12 @@ class Customers extends Component {
                     <UpDateDate email={customer.email} getHorses={this.gitNewDate.bind(this)}/>
                   </div>
                 }
+                {this.state.customers === customer.id &&
+                  <div>
+                    <DeleteClient id={customer.id} getHorses={this.gitNewClientList.bind(this)}/>
+                  </div>
+                }
+                
               </div>
   }
     const mappedCustomers = this.state.customers.length && !this.state.value

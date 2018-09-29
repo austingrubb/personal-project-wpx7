@@ -1,5 +1,5 @@
 delete from customers 
-where id = $1;
+where email = $1;
 
 
 

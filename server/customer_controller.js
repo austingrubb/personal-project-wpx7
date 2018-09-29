@@ -109,9 +109,9 @@ module.exports = {
 
     delete: (req, res, next) => {
         const database = req.app.get('db');
-        const { params } = req;
+        const { id } = req.query;
 
-        database.delete([ params.id ])
+        database.delete([ id ])
           .then( () => res.sendStatus(200) )
           .catch( err => {
             res.status(500).send({errorMessage: "Oops! Something went wrong. Our engineers have been informed!"});

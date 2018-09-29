@@ -5,6 +5,7 @@ const session = require('express-session');
 require('dotenv').config()
 const cC = require('./customer_controller');
 const bcrypt = require('bcrypt');
+const path = require('path')
 const saltRounds = 12
 
 const app = express();
@@ -91,10 +92,13 @@ app.post('/api/horse', cC.createHorse)
 app.post('/api/customer/date', cC.updateAppDate);
 app.post('/api/customer/time', cC.updateAppTime);
 app.post('/api/user', cC.createUser)
-app.delete('/api/customer/:id', cC.delete);
+app.delete('/api/customer', cC.delete);
 app.get('/api/customers_horses', cC.getCustomersAndHorses)
 
-
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+   })
+   
 const port = process.env.port || 44000;
 app.listen(port,() =>{console.log(`Server listening on port ${port}`);});  
 
