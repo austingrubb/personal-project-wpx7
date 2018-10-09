@@ -27,7 +27,7 @@ export class upDateDate extends Component {
         e.preventDefault();
         console.log('upDateDate was hit')
         axios.post(`/api/customer/date?id=${this.state.email}`,this.state).then(res => {
-          console.log(res.data)
+          console.log('was hot', res.data)
           this.setState({
             state: res.data
           }, this.handleSubmit(e)

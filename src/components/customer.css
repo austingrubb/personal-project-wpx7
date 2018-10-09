@@ -1,0 +1,16 @@
+.clientsName{
+    margin: 20px;
+    width: calc(100vw - 140px);
+    height: calc(100% - 135px);
+    border: 2px solid lightgray;
+    padding: 50px;
+    font-size: 60px;
+}
+.clientsInfo{
+    margin: 20px;
+    width: calc(100vw - 140px);
+    height: calc(100% - 135px);
+    border: 2px solid lightgray;
+    padding: 50px;
+    font-size: 60px;
+}

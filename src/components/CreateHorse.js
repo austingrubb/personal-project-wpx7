@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const baseUrl = '/api/horse'
 
@@ -14,7 +15,9 @@ export class CreateHorse extends Component {
       height: '',
       sex: '',
       foaling_year: '',
-      color: ''
+      color: '',
+      appointment_date: '',
+      appointment_time: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,9 +37,7 @@ export class CreateHorse extends Component {
   
   addNewHorse(e){
     e.preventDefault();
-    console.log('addnew horse was hit')
     axios.post(`${baseUrl}`,this.state).then(res => {
-      console.log(res.data)
       this.setState({
         state: res.data
       }, this.handleSubmit(e),
@@ -48,7 +49,6 @@ export class CreateHorse extends Component {
   } 
 
   render() {
-    console.log(this.props)
     return (
       <div className='createHorseForm'>
         <form >
@@ -69,6 +69,10 @@ export class CreateHorse extends Component {
             <input type='text' value={this.state.foaling_year} onChange={e => this.handleChange('foaling_year', e.target.value)}/>
               Color:
             <input type='text' value={this.state.color} onChange={e => this.handleChange('color', e.target.value)}/>
+            Appointment date:
+            <input type='text' value={this.state.appointment_date} onChange={e => this.handleChange('appointment_date', e.target.value)}/>
+              Appointment time:
+            <input type='text' value={this.state.appointment_time} onChange={e => this.handleChange('appointment_time', e.target.value)}/>
           </label>
           <input type="submit" value="Submit" onClick={(e) => this.addNewHorse(e)} />
         </form>
@@ -76,5 +80,6 @@ export class CreateHorse extends Component {
     )
   }
 }
+
 
 export default CreateHorse

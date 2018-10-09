@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import UpDateTime from './upDateTime'; 
 import UpDateDate from './upDateDate';
 import DeleteClient from './deleteCustomer';
+import './customer.css';
 
 const baseUrl = '/api/customers'
 
@@ -21,7 +22,8 @@ class Customers extends Component {
           createHorse: -1,
           appointment_time: -1,
           appointment_date: -1,
-          show_clients: -1
+          show_clients: -1,
+          horseInfo: ""
         }
       }
 
@@ -51,11 +53,25 @@ class Customers extends Component {
             })
         }
 
+        
+
+        toggleHorseInfo = (horse, key) => {
+          console.log(this.toggleHorseInfo)
+          this.state[key] === horse.id ?
+            this.setState({
+              [key]: -1
+            })
+          :
+            this.setState({
+              [key]: horse.id
+            })
+        }
+
         inputSearch = (value) => {
           this.setState({
               value
           })
-      }
+        }
 
       getHorses(){
         console.log('getHorses was hit ')
@@ -113,29 +129,48 @@ class Customers extends Component {
         } );
       }     
 
+      getHorseData = (id) => {
+        axios.get(`/api/horse?id=${id}`).then(res => {
+          const horseInfo = {
+            id: res.data[0].id,
+            appointment_date: res.data[0].appointment_date
+          }
+          this.setState({
+           horseInfo: horseInfo
+          })
+        })
+      }
+
       
-  render() {
-    console.log(this.state)
-    const renderCustomer = (customer, i) => {
-      return <div key={i}>
+      render() {
+        console.log(this.state.appointment_date)
+        const renderCustomer = (customer, i, horses) => {
+          return <div key={i} className='clientsName'>
                 <div onClick={() => this.toggleHorse(customer, 'showHorses')}>
                 {customer.name }
                 </div>
                 {this.state.showHorses === customer.id &&
                 <div> 
                   <div>{this.state.horses.filter(e =>
-                   e.customer_email === customer.email).map(e => e.name)}
-                  </div>
+                   e.customer_email === customer.email).map(e => {
+                     return <div onClick={() => this.getHorseData(e.id)}>
+                              {e.name}
+                          <div onClick={() => this.toggleHorse(horses, 'showHorses')}>
+                              {this.state.horseInfo && this.state.horseInfo.id === e.id ? <div>{this.state.horseInfo.appointment_date}</div> : !this.state.showHorses}
+                            </div>
+                              <button onClick={() => this.toggleHorse(horses, 'appointment_time')}>
+                                  {this.state.appointment_time === horses.id ? 'cancel' : 'Update Appointment Time'}
+                              </button>
+                              <button onClick={() => this.gitNewDate(horses, 'appointment_date')}>
+                                  {this.state.appointment_date === horses.id ? 'cancel' : 'Update Appointment date'}
+                              </button>
+
+                          </div>
+                     })}
+                  </div >
                    <button onClick={() => this.toggleHorse(customer, 'createHorse')}>{this.state.createHorse === customer.id ? 'cancel' : 'Add a new Horse'}</button>
-                   <button onClick={() => this.toggleHorse(customer, 'appointment_time')}>
-                      {this.state.appointment_time === customer.id ? 'cancel' : 'Up Date Appointment Time'}
-                   </button>
-                   <button onClick={() => this.toggleHorse(customer, 'appointment_date')}>
-                      {this.state.appointment_date === customer.id ? 'cancel' : 'Up Date Appointment date'}
-                   </button>
-                   {/* <button onClick={() => this.toggleHorse(customer, 'show_clients')}>
-                      {this.state.show_clients === customer.id ? 'cancel' : 'delete'}
-                   </button> */}
+                    <div onClick={() => this.toggleHorseInfo(customer, 'showHorses')}>
+                    </div>
                    <DeleteClient id={customer.email} function={this.gitNewClientList.bind(this)}/>
                    </div>
                 }
@@ -147,22 +182,18 @@ class Customers extends Component {
                 }
                 {this.state.appointment_time === customer.id &&
                   <div>
-                    <UpDateTime email={customer.email} getHorses={this.gitNewTime.bind(this)}/>
+                    <UpDateTime id={customer.id} gitNewTime={this.gitNewClientList.bind(this)}/>
                   </div>
                 }
-                {this.state.appointment_date === customer.id &&
+                {1 === customer.id &&
                   <div>
-                    <UpDateDate email={customer.email} getHorses={this.gitNewDate.bind(this)}/>
-                  </div>
-                }
-                {this.state.customers === customer.id &&
-                  <div>
-                    <DeleteClient id={customer.id} getHorses={this.gitNewClientList.bind(this)}/>
+                    <UpDateDate id={horses.id} upDateApp={this.gitNewClientList.bind(this)}/>
                   </div>
                 }
                 
+                
               </div>
-  }
+          }
     const mappedCustomers = this.state.customers.length && !this.state.value
      ? 
      this.state.customers.map(renderCustomer) 
@@ -194,3 +225,33 @@ const mapStateToProps = (store) => {
 }
 
 export default connect(mapStateToProps)(Customers)
+
+
+
+      // gitNewTime(){
+      //   console.log('upDateApp was hit')
+      //   axios.get(`${baseUrl}`).then(res => {
+      //     console.log(res.data)
+      //     this.setState({
+      //       customers: res.data,
+      //       appointment_time: -1
+      //     }
+      //   )
+      //   }).catch( err => {
+      //     console.log(err)
+      //   } );
+      // }
+    
+      // gitNewDate(){
+      //   console.log('upDateApp was hit')
+      //   axios.get(`${baseUrl}`).then(res => {
+      //     console.log(res.data)
+      //     this.setState({
+      //       customers: res.data,
+      //       appointment_date: -1
+      //     }
+      //   )
+      //   }).catch( err => {
+      //     console.log(err)
+      //   } );
+      // }

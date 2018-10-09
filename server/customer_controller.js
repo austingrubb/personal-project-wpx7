@@ -96,6 +96,14 @@ module.exports = {
         })
     },
 
+    getOneHorse: (req, res) => {
+        const database = req.app.get('db');
+        const {id} = req.query
+        database.get_one_horse(id).then(response => {
+            res.status(200).send(response)
+        })
+    },
+
     getCustomersAndHorses: (req, res) => {
         const database = req.app.get('db'); 
  

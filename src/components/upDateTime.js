@@ -8,8 +8,9 @@ export class upDateTime extends Component {
             email: this.props.email || '',
             appointment_time: ''
         }
-
-
+        // this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.upDateAppointmentTime = this.upDateAppointmentTime.bind(this);
     }
 
     handleChange(key, value){
@@ -23,7 +24,7 @@ export class upDateTime extends Component {
         event.preventDefault();
       }
 
-    upDateApp(e){
+    upDateAppointmentTime(e){
         e.preventDefault();
         console.log('upDateApp was hit')
         axios.post(`/api/customer/time?id=${this.state.email}`,this.state).then(res => {
@@ -42,11 +43,15 @@ export class upDateTime extends Component {
   render() {
     return (
       <div className="upDate">
-      Email:
-         <input type='text' value={this.state.email} onChange={ e => this.handleChange('email', e.target.value)}/>
-      Appointment Time:
-         <input type='text' value={this.state.appointment_time} onChange={ e => this.handleChange('appointment_time', e.target.value)}/>
-        <button onClick={(e) => this.upDateApp(e)}>change app time </button>
+        <form>
+          <label>
+            Email:
+              <input type='text' value={this.state.email} onChange={ e => this.handleChange('email', e.target.value)}/>
+            Appointment Time:
+              <input type='text' value={this.state.appointment_time} onChange={ e => this.handleChange('appointment_time', e.target.value)}/>
+          </label>
+              <input type="submit" value="Submit" onClick={(e) => this.upDateAppointmentTime(e)} />
+        </form>
       </div>
     )
   }

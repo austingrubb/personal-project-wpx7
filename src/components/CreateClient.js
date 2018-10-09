@@ -13,9 +13,7 @@ export class CreateClient extends Component {
       zip_code: '',
       cellphone: '',
       email: '',
-      customer_type: '',
-      appointment_date: '',
-      appointment_time: ''
+      customer_type: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

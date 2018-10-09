@@ -1,3 +1,3 @@
-update customers
+update horses
 set appointment_time = $1
-where email = $2;
+where id = $2;

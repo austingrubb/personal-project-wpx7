@@ -5,10 +5,10 @@ export class deleteClient extends Component {
     constructor(props){
         super(props)
         this.state = {
-            email: this.props.id
+            email: this.props.id,
+            name: ''
         }
-
-
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(key, value){
@@ -18,7 +18,7 @@ export class deleteClient extends Component {
       }
 
     handleSubmit(event){
-        alert('A client was deleted: ' + this.state.name);
+        alert('Client was deleted');
         event.preventDefault();
       }
 

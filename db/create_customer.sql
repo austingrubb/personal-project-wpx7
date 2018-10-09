@@ -1,7 +1,7 @@
 insert into customers
-(name, address, zip_code, cell_phone, email, customer_type, appointment_date, appointment_time)
+(name, address, zip_code, cell_phone, email, customer_type)
 values
-($1, $2, $3, $4, $5, $6, $7, $8);
+($1, $2, $3, $4, $5, $6);
 
 select * from customers;
 

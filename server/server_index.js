@@ -87,10 +87,11 @@ app.get('/data', checkIfLoggedIn, (req, res) => {
 app.get('/api/customers', cC.getCustomers)
 app.get('/api/horses', cC.getHorses)
 app.get('/api/customer', cC.getOneCustomer)
+app.get('/api/horse', cC.getOneHorse)
 app.post('/api/customer', cC.createCustomer)
 app.post('/api/horse', cC.createHorse)
-app.post('/api/customer/date', cC.updateAppDate);
-app.post('/api/customer/time', cC.updateAppTime);
+app.post('/api/horses/date', cC.updateAppDate);
+app.post('/api/horses/time', cC.updateAppTime);
 app.post('/api/user', cC.createUser)
 app.delete('/api/customer', cC.delete);
 app.get('/api/customers_horses', cC.getCustomersAndHorses)
